@@ -17,7 +17,8 @@ const noteSchema = new Schema(
         },
         date: {
             type: Date,
-            default: formatDate(Date.now)
+            default: Date.now,
+            get: (x)=> formatDate(x)
         }
     }
 )
