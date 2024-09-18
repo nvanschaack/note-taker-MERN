@@ -35,6 +35,11 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
+//compare fxn returns a boolean
+userSchema.methods.isCorrectPassword = async function(password){
+    return bcrypt.compare(password, this.password)
+}
+
 const User = model('User', userSchema);
 
 module.exports = User;
