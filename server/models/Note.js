@@ -20,6 +20,11 @@ const noteSchema = new Schema(
             default: Date.now,
             get: (x)=> formatDate(x)
         }
+    }, 
+    {
+        toJSON: {
+            getters: true
+        }
     }
 )
 

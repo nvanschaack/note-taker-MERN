@@ -1,6 +1,7 @@
 //controllers control the flow of data into and from the database
 const { User } = require('../models')
 
+//exporting an object of methods
 module.exports = {
     //create a user 
     async createUser(req, res) {
