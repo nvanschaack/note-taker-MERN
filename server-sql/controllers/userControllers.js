@@ -1,9 +1,14 @@
 //require connection from config folder using db as a variable
 const db = require('../config/connection');
+//bringing in bcrypt so that we can hash the password when we create a user, and compare passwords when logging in a user
+const bcrypt = require('bcrypt');
+const auth = require('../utils/auth');
 
 module.exports = {
-    createUser(req, res) {
-        const sql = `INSERT INTO user (username, user_password) VALUES ('${req.body.username}', '${req.body.user_password}')`;
+    async createUser(req, res) {
+        const hashedPw = await bcrypt.hash(req.body.user_password, 10)
+
+        const sql = `INSERT INTO user (username, user_password) VALUES ('${req.body.username}', '${hashedPw}')`;
         //query is a function/method that takes in a query string and a callback fxn
         //the callback fxn has err and data (or rows) as parameters
         //data represents the rows of data returned from the query
@@ -27,7 +32,9 @@ module.exports = {
     },
     findOneUser(req, res) {
         //in a select, data can be returned because we want to find data
-        const sql = `SELECT * FROM user WHERE id = ${req.params.userId}`
+        //WRITE A JOIN STATEMENT TO SHOW ALL NOTES FROM ONE USER
+        const sql = `SELECT user.id, user.username, notes.title, notes.note_text, notes.id AS note_id FROM user LEFT JOIN notes ON user.id = notes.userId WHERE user.id = ${req.params.userId}`
+     
         db.query(sql, (err, data) => {
             if (err) {
                 return res.status(500).json(err)
@@ -44,18 +51,22 @@ module.exports = {
     },
     loginUser(req, res) {
         const sql = `SELECT * FROM user WHERE username = '${req.body.username}'`
-        db.query(sql, (err, data) => {
+        db.query(sql, async (err, data) => {
             if (data.length === 0) {
                 return res.status(400).json('username is not in the database')
             }
             //make user a variable extracted from the data array (now it's an object)
             const user = data[0]
 
-            if (user.user_password !== req.body.user_password) {
+            const checkClientPw = await bcrypt.compare(req.body.user_password, user.user_password)
+
+            if (!checkClientPw) {
                 return res.status(400).json('password does not match password in database')
             }
-
-            res.status(200).json('user successfully logged in')
+            
+            const token = auth.signToken(user)
+            
+            res.status(200).json(token)
         })
     }
 }
