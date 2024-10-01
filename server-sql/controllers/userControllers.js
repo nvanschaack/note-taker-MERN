@@ -33,7 +33,8 @@ module.exports = {
     findOneUser(req, res) {
         //in a select, data can be returned because we want to find data
         //WRITE A JOIN STATEMENT TO SHOW ALL NOTES FROM ONE USER
-        const sql = `SELECT user.id, user.username, notes.title, notes.note_text, notes.id AS note_id FROM user LEFT JOIN notes ON user.id = notes.userId WHERE user.id = ${req.params.userId}`
+        // console.log(req.user);
+        const sql = `SELECT user.id, user.username, notes.title, notes.note_text, notes.id AS note_id FROM user LEFT JOIN notes ON user.id = notes.userId WHERE user.id = ${req.user.id}`
      
         db.query(sql, (err, data) => {
             if (err) {
@@ -66,7 +67,7 @@ module.exports = {
             
             const token = auth.signToken(user)
             
-            res.status(200).json(token)
+            res.status(200).json({token})
         })
     }
 }

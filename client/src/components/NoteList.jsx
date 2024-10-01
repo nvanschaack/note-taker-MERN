@@ -1,8 +1,8 @@
 import React from 'react'
 
-//need to display every note that has been created from the database?
 
 export default function NoteList() {
+  //need to display every note that has been created from one user
   return (
     <div>NoteList</div>
   )
