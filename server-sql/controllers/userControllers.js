@@ -6,7 +6,7 @@ const auth = require('../utils/auth');
 
 module.exports = {
     async createUser(req, res) {
-        const hashedPw = await bcrypt.hash(req.body.user_password, 10)
+        const hashedPw = await bcrypt.hash(req.body.password, 10)
 
         const sql = `INSERT INTO user (username, user_password) VALUES ('${req.body.username}', '${hashedPw}')`;
         //query is a function/method that takes in a query string and a callback fxn
@@ -59,7 +59,7 @@ module.exports = {
             //make user a variable extracted from the data array (now it's an object)
             const user = data[0]
 
-            const checkClientPw = await bcrypt.compare(req.body.user_password, user.user_password)
+            const checkClientPw = await bcrypt.compare(req.body.password, user.user_password)
 
             if (!checkClientPw) {
                 return res.status(400).json('password does not match password in database')

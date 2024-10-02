@@ -9,6 +9,7 @@ import App from './App.jsx'
 import Home from './components/Home.jsx'
 import Notes from './components/Notes.jsx'
 import Login from './components/Login.jsx';
+import SignUp from './components/SignUp.jsx';
 
 //need a login/sign up page
 //once logged in, user sees a create note form on the left hand side, previous notes (if any) on the left hand side, and if they want to see one not ein particular blow up, they can click on it and it will be rendered in the middle of the page
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
       //if they have an account, send to login, else send to sign up page
       {
         path: 'Login',
-        element: <Notes />
+        element: <Login />
+      },
+      {
+        path: 'SignUp',
+        element: <SignUp />
       },
       {
         path: 'Notes',

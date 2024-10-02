@@ -1,15 +1,25 @@
-  //need API functionality (using utils folder with api.js file- different fetches to be used:)
-    //login
-    //createUser
+  //API functionality:
     //getUser
     //createNote
     //deleteNote
     //findOneNote
 
-    export const loginUser = () => {
+    export const loginUser = (data) => {
+        return fetch('/api/user/login', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+    };
 
-    }
-
-    export const createUser = () => {
-        
-    }
+    export const createUser = (data) => {
+        return fetch('/api/user', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+    };

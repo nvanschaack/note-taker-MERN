@@ -31,15 +31,15 @@ module.exports = {
             res.json('must be logged in')
         }
     },
-    // findAllNotesFromAllUsers(req, res) {
-    //     const sql = `SELECT * FROM notes`
-    //     db.query(sql, (err, data)=> {
-    //         if (err) {
-    //             return res.status(500).json(err)
-    //         }
-    //         res.json(data)
-    //     })
-    // },
+    findAllNotesFromAllUsers(req, res) {
+        const sql = `SELECT * FROM notes`
+        db.query(sql, (err, data)=> {
+            if (err) {
+                return res.status(500).json(err)
+            }
+            res.json(data)
+        })
+    },
     findOneNote(req,res){
         const sql = `SELECT * FROM notes WHERE id = ${req.params.noteId}`
         db.query(sql, (err, data)=> {
