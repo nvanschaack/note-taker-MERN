@@ -24,13 +24,21 @@ const handleSubmit = async (event) => {
     event.preventDefault();
     //bring in loginUser from api.js and get it to console.log the token
     try {
+        //this await will only return userData in the form of technical fetch data (doesn't have the actual info you need) --> the .json() method is extracts the actual content needed
         const userData = await loginUser(formData)
+        console.log("user data", userData);
+        
         if (!userData.ok) {
             throw new Error('data not sufficient')
         }
         //console.log the token
+        //here we use the json() method to extract the token, from the loginUser fxn
         const token = await userData.json()
         console.log('received token:', token);
+        //set item in localstorage, so we can access the token later on
+        localStorage.setItem('token', token.token)
+        //bring to the home page:
+        window.location.assign('/')
         
     } catch (error) {
         console.log(error);
@@ -39,6 +47,8 @@ const handleSubmit = async (event) => {
 // console.log(formData);
 
     return (
+        <>
+        <button onClick={()=>window.location.assign('/SignUp')}>Sign Up</button>
         <div>
             <Form onSubmit={handleSubmit}>
 
@@ -68,5 +78,7 @@ const handleSubmit = async (event) => {
 
             </Form>
         </div>
+        </>
+        
     )
 }
