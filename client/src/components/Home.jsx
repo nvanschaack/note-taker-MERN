@@ -1,18 +1,51 @@
-import React from "react";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import NoteList from './NoteList'
+
+import { useState, useEffect } from "react";
 import Navigation from "./Navigation";
+import Auth from '../utils/auth';
+import { findAllNotesFromUser } from "../utils/api";
 
 export default function Home() {
-//consists of noteform on left side, selected note in middle, and noteList on right side
+    const [userData, setUserData] = useState([])
+    
+    //when the component loads, we want to run a fetch to retrieve data (the notes the user has made)
+    useEffect(() => {
+        //we have to create another fxn in order to do things asyncronously 
+        const getData = async () => {
+            const token = Auth.retrieveTokenFromLocalStorage();
+            const response = await findAllNotesFromUser(token)
+
+            const notes = await response.json()
+            console.log(notes);
+
+            setUserData(notes);
+        }
+
+        getData()
+    }, [])
 
     return (
         <>
-        <Navigation />
-            <div>
-                <h1>Note Taker</h1>
-            </div>
-            <div>
-                <a href="/Notes" role="button">Make New Note</a>
-            </div>
+            <Navigation />
+            <Container>
+                <Row>
+                    <Col >
+                        <NoteList />
+                    </Col>
+                    <Col >
+                        <div>
+                            <h1>Add notes here:</h1>
+                        </div>
+                        <button >
+                            <a href="/Notes" role="button">Add New Note</a>
+                        </button>
+                    </Col>
+                </Row>
+            </Container>
         </>
 
     )

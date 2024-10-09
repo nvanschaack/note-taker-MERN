@@ -5,7 +5,7 @@ const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
 module.exports = {
-  // function for our authenticated routes 
+  // 
   authMiddleware: function (req, res, next) {
     // allows token to be sent via  req.query or headers
     // the value of "token" is dependent on if the query or headers exist

@@ -1,5 +1,4 @@
 import React from 'react'
-import NoteList from './NoteList'
 import NoteForm from './NoteForm'
 
 import Container from 'react-bootstrap/Container';
@@ -11,9 +10,6 @@ export default function Notes() {
     <>
       <Container>
         <Row>
-          <Col >
-            <NoteList />
-          </Col>
           <Col >
             <NoteForm />
           </Col>

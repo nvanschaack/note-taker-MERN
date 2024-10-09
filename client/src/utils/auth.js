@@ -3,13 +3,20 @@ import { jwtDecode } from "jwt-decode";
 
 //check to see if someone is logged in
 class CheckAuth {
+    retrieveTokenFromLocalStorage(){
+        return localStorage.getItem('token')
+    }
+    //decodeToken is going to return: data (username, id), initiated at, & expiration
+    decodeToken(){
+        return jwtDecode(this.retrieveTokenFromLocalStorage())
+    }
+
     isLoggedIn() {
         //see IF theres a token in localstorage
-        const token = localStorage.getItem('token')
-        
+        const token = this.retrieveTokenFromLocalStorage()
         if (token) {
             //check to see if token is expired
-            const decoded = jwtDecode(token)
+            const decoded = this.decodeToken()
             const isExpired = this.checkExp(decoded)
             if (!isExpired) {
                 return true
