@@ -46,6 +46,7 @@ export default function NoteForm() {
                 <Form.Group className="mb-3">
                     <Form.Label>Title</Form.Label>
                     <Form.Control
+                        required
                         name="title"
                         type="text"
                         placeholder='Note Title'
@@ -57,6 +58,7 @@ export default function NoteForm() {
                 <InputGroup>
                     <InputGroup.Text>Text</InputGroup.Text>
                     <Form.Control
+                        required
                         name="note_text"
                         placeholder='Note Text'
                         value={noteInfo.note_text}

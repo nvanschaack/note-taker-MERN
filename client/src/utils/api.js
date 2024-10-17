@@ -27,7 +27,7 @@ export const createUser = (data) => {
 };
 //
 export const findAllNotesFromUser = (token) => {
-    return fetch('/api/user/findOneUser', {
+    return fetch('/api/notes/getNotes', {
         headers: {
             'content-type': 'application/json',
             //whenever we need authentication, we are providing authorization so that we can send the token back to server
@@ -47,4 +47,23 @@ export const createNote = (token, data) => {
         //this body is used in the noteControllers. req.body.title & req.body.note_text are now properties that the backend can use
         body: JSON.stringify(data)
     })
-}
+};
+export const deleteOneNote = (token, noteId) => {
+    return fetch(`/api/notes/${noteId}`,{
+        method: 'DELETE',
+        headers: {
+            authorization: token
+        }
+    })
+};
+export const editNote = (token, data) => {
+    return fetch(`/api/notes/${data.noteId}`, {
+        method: 'PUT',
+        headers: {
+            authorization: token,
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+};
+

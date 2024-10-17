@@ -14,35 +14,35 @@ module.exports = {
         })
     },
     deleteOneNote(req, res) {
-        if(req.user){
-            const sql = `DELETE notes WHERE id = ${req.params.noteId}`
+        if (req.user) {
+            const sql = `DELETE FROM notes WHERE id = ${req.params.noteId}`
             db.query(sql, (err, data) => {
                 if (err) {
                     return res.status(500).json(err)
                 }
-    
-                if (data.length === 0 ) {
+
+                if (data.length === 0) {
                     return res.status(400).json('noteId does not exist so note could not be deleted')
                 }
                 res.json('note has been deleted')
             })
         }
-        else{
+        else {
             res.json('must be logged in')
         }
     },
     findAllNotesFromAllUsers(req, res) {
         const sql = `SELECT * FROM notes`
-        db.query(sql, (err, data)=> {
+        db.query(sql, (err, data) => {
             if (err) {
                 return res.status(500).json(err)
             }
             res.json(data)
         })
     },
-    findOneNote(req,res){
+    findOneNote(req, res) {
         const sql = `SELECT * FROM notes WHERE id = ${req.params.noteId}`
-        db.query(sql, (err, data)=> {
+        db.query(sql, (err, data) => {
             if (err) {
                 return res.status(500).json(err)
             }
@@ -51,6 +51,24 @@ module.exports = {
                 return res.status(400).json('noteId not found')
             }
 
+            res.json(data)
+        })
+    },
+    findNotesFromOneUser(req, res) {
+        const sql = `SELECT * FROM notes WHERE userId = ${req.user.id}`
+        db.query(sql, (err, data) => {
+            if (err) {
+                return res.status(500).json(err)
+            }
+            res.json(data)
+        })
+    },
+    editNote(req,res){
+        const sql = `UPDATE notes SET title = "${req.body.title}", note_text = "${req.body.note_text}" WHERE id = ${req.params.noteId}`
+        db.query(sql, (err,data)=> {
+            if (err) {
+                return res.status(500).json(err)
+            }
             res.json(data)
         })
     }
