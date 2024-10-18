@@ -1,7 +1,4 @@
-import Card from './Card'
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
+import NoteCard from './Card'
 import { deleteOneNote, editNote } from '../utils/api';
 import Auth from '../utils/auth';
 import { useState } from 'react';
@@ -9,15 +6,12 @@ import { useState } from 'react';
 //deconstruct notes out of props which was passed thru home.jsx
 export default function NoteList({ notes }) {
   // console.log(notes);
-  const [editMode, setEditMode] = useState(false)
-
-  const handleEdit = async (data) => {
-    //this is a toggle
-    //setting state to be the oppposite of whatever state was before
-    setEditMode(!editMode)
-    // const token = Auth.retrieveTokenFromLocalStorage()
-
-    // const editOneNote = await editNote(token, data)
+  const [editingCardID, setEditingCardID] = useState(null)
+  // console.log(editingCardID);
+  
+  const handleEdit = async (id) => {
+   //setting the id of the note to be the id of the card that i'm editing
+    setEditingCardID(id)
   }
 
   const handleDelete = async (noteId) => {
@@ -25,52 +19,29 @@ export default function NoteList({ notes }) {
     const deleteNote = await deleteOneNote(token, noteId)
   }
 
+  // const handleCancel = async () => {
+  //   setEditingCardID(null)
+  // }
+
   //need to display every note that has been created from one user
   return (
     <>
       <div>Notes:</div>
       {notes.map((note, i) => (
         
-          <Card 
+          <NoteCard 
           key={note.id}
           note={note}
-          
+          notes={notes}
+          editingCardID={editingCardID}
+          handleEdit={()=> handleEdit(note.id)}
+          handleDelete={()=> handleDelete(note.id)}
+          //sending an expression/comparison (usually is inside of a condition, like an if statement) over to Card.jsx, IT WILL SEND A T/F VALUE TO THE CARD
+          checkIfCardAndNoteIdMatch={note.id === editingCardID}
+          // handleCancel={handleCancel}
+          // handleSubmit={()=> handleSubmit(data)}
+          setEditingCardID={setEditingCardID}
           />
-
-          //ELSE, display the form to edit the note.
-          // <Form
-          // // onSubmit={handleSubmit}
-          // >
-          //   <Form.Group className="mb-3">
-          //     <Form.Label>Title</Form.Label>
-          //     <Form.Control
-          //     // required
-          //     // name="title"
-          //     // type="text"
-          //     // placeholder='Note Title'
-          //     // value={noteInfo.title}
-          //     // onChange={handleChange}
-          //     />
-          //   </Form.Group>
-
-          //   <InputGroup>
-          //     <InputGroup.Text>Text</InputGroup.Text>
-          //     <Form.Control
-          //     // required
-          //     // name="note_text"
-          //     // placeholder='Note Text'
-          //     // value={noteInfo.note_text}
-          //     // onChange={handleChange}
-          //     />
-          //   </InputGroup>
-
-          //   <Button variant="primary" type="submit">
-          //     Submit
-          //   </Button>
-          //   <Button onClick={handleEdit}>Cancel</Button>
-          // </Form>
-
-
 
       ))}
 
