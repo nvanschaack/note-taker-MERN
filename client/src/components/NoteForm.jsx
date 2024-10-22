@@ -20,6 +20,7 @@ export default function NoteForm() {
         const token = Auth.retrieveTokenFromLocalStorage();
         //await the createNote fxn to run given the params it needs. call it "response"
         const response = await createNote(token, noteInfo);
+        
         //if the response is falsey, throw an error
         if (!response.ok) {
             throw new Error('note could not be created')

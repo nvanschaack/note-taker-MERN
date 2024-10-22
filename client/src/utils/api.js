@@ -37,6 +37,8 @@ export const findAllNotesFromUser = (token) => {
 };
 //push note into database. since it's a post method, it needs a body.
 export const createNote = (token, data) => {
+    console.log(token, data);
+    
     return fetch('/api/notes/createNote', {
         method: 'POST',
         headers: {

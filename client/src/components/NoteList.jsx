@@ -4,7 +4,7 @@ import Auth from '../utils/auth';
 import { useState } from 'react';
 
 //deconstruct notes out of props which was passed thru home.jsx
-export default function NoteList({ notes }) {
+export default function NoteList({ notes, fetchData }) {
   // console.log(notes);
   const [editingCardID, setEditingCardID] = useState(null)
   // console.log(editingCardID);
@@ -16,12 +16,9 @@ export default function NoteList({ notes }) {
 
   const handleDelete = async (noteId) => {
     const token = Auth.retrieveTokenFromLocalStorage()
-    const deleteNote = await deleteOneNote(token, noteId)
+    await deleteOneNote(token, noteId)
+    fetchData()
   }
-
-  // const handleCancel = async () => {
-  //   setEditingCardID(null)
-  // }
 
   //need to display every note that has been created from one user
   return (
@@ -41,6 +38,7 @@ export default function NoteList({ notes }) {
           // handleCancel={handleCancel}
           // handleSubmit={()=> handleSubmit(data)}
           setEditingCardID={setEditingCardID}
+          fetchData={fetchData}
           />
 
       ))}

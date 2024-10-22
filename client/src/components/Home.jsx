@@ -12,20 +12,27 @@ import { findAllNotesFromUser } from "../utils/api";
 export default function Home() {
     const [userData, setUserData] = useState([])
 
-    //when the component loads, we want to run a fetch to retrieve data (the notes the user has made)
-    useEffect(() => {
-        //we have to create another fxn in order to do things asyncronously 
-        const getData = async () => {
+    const fetchNoteData = async () => {
+        try {
             const token = Auth.retrieveTokenFromLocalStorage();
             const response = await findAllNotesFromUser(token)
 
             const notes = await response.json()
 
             setUserData(notes);
+        } catch (error) {
+            console.log(error);
+            
         }
+    }
 
-        getData()
-    }, [userData])
+
+    //when the component loads, we want to run a fetch to retrieve data (the notes the user has made)
+    useEffect(() => {
+        //we have to create another fxn in order to do things asyncronously 
+        fetchNoteData()
+         
+    }, [])
 
     return (
         <>
@@ -33,7 +40,7 @@ export default function Home() {
             <Container>
                 <Row>
                     <Col >
-                        {userData.length === 0 ? 'No notes to be displayed.' : <NoteList notes={userData} />}
+                        {userData.length === 0 ? 'No notes to be displayed.' : <NoteList notes={userData} fetchData={fetchNoteData}/>}
                     </Col>
                     <Col >
                         <div>

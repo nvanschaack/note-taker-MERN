@@ -3,6 +3,7 @@ const db = require('../config/connection');
 
 module.exports = {
     createNote(req, res) {
+        
         //in order to create a note we want the user to be signed in ...
         //can we use both req.body and req.params-YES
         const sql = `INSERT INTO notes (title, note_text, userId) VALUES ('${req.body.title}', '${req.body.note_text}', ${req.user.id})`
