@@ -25,7 +25,7 @@ module.exports = {
     // verify token and get user data out of it
     try {
       // verifying that the token's secret and expiration match the secret and expiration provided by the code
-      //extract the exissting property from the token called data
+      //extract the existing property from the token called data
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       // assigning data to a new property in the request called user
       //req.user is an object with "username" and "id" as keys
